@@ -36,7 +36,7 @@
 
 import QtQuick 1.1
 
-Item {
+Rectangle {
     id: slide
 
     property bool isSlide: true;
@@ -63,7 +63,11 @@ Item {
     property real masterWidth: parent.width
     property real masterHeight: parent.height
 
-    property color slideTextColor: parent.textColor != undefined ? parent.textColor : "black"
+    //### Default color text == white because the theme bg is black. Need to make it configurable
+    property color slideTextColor: parent.textColor != undefined ? parent.textColor : "white"
+
+    //### set the same color of Presentation
+    color: parent.color
 
     visible: false
 
