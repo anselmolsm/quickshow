@@ -12,6 +12,11 @@ Image {
     property alias date: date.text
 
     visible: false
+
+    // ### Placeholder color, to avoid a bug in Presentation caused by
+    // the lack of "color" property in ImageSlide.
+    property color color: "white"
+
 //    property real fontSize: 42
 //    property real fontScale: 1
 
