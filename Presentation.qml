@@ -36,8 +36,11 @@
 
 import QtQuick 1.1
 
-Item {
+Rectangle {
     id: root
+
+    //### Workaround to set the bg color correcly.
+    color: "black"
 
     property variant slides: []
     property int currentSlide;
@@ -69,6 +72,7 @@ Item {
     function switchSlides(from, to) {
         from.visible = false
         to.visible = true
+        root.color = to.color
         return true
     }
 
@@ -94,7 +98,7 @@ Item {
             var from = slides[currentSlide]
             var to = slides[currentSlide - 1]
            if (switchSlides(from, to)) {
-                currentSlide = currentSlide - 1;
+               currentSlide = currentSlide - 1;
                root.focus = true;
            }
         }
