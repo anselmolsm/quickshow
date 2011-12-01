@@ -148,4 +148,21 @@ Rectangle {
         }
     }
 
+    /*### Transitions between slides
+     Yet another experiment that needs a better implementation.
+     TODO: Find a good way to make the slide transition customizable.
+     The current implementation is not ideal (obviously),
+     but worked for my immediate use case ;)
+     */
+    opacity: 0
+    onVisibleChanged: {
+        if (visible == true)
+            opacity = 1
+    }
+    Behavior on opacity {
+        NumberAnimation {
+            to: 1
+            duration: 500
+        }
+    }
 }
