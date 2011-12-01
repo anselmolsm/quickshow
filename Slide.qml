@@ -139,7 +139,7 @@ Rectangle {
                     width: slide.contentWidth - parent.x - dot.width - space.width
                     font.pixelSize: baseFontSize * row.indentFactor
                     text: content[index]
-                    textFormat: Text.PlainText
+                    textFormat: Text.RichText
                     wrapMode: Text.WordWrap
                     color: slide.slideTextColor
                     horizontalAlignment: Text.AlignLeft
