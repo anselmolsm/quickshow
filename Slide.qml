@@ -98,7 +98,9 @@ Rectangle {
 
     Column {
         id: contentId
-        anchors.fill: parent
+        anchors.centerIn: parent
+        height: childrenRect.height
+        width: childrenRect.width
 
         Repeater {
             model: content.length
