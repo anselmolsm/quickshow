@@ -42,6 +42,7 @@ Rectangle {
     //### Workaround to set the bg color correcly.
     color: "black"
 
+    property alias enableMouse: mouseArea.enabled
     property variant slides: []
     property int currentSlide;
 
