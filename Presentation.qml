@@ -53,7 +53,7 @@ Rectangle {
     Component.onCompleted: {
         var slideCount = 0;
         var slides = [];
-        for (var i=0; i<root.resources.length; ++i) {
+        for (var i = 0; i < root.resources.length; i++) {
             var r = root.resources[i];
             if (r.isSlide) {
                 slides.push(r);
