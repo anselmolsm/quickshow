@@ -1,0 +1,12 @@
+*.user
+moc_*
+*.moc
+*~
+*.o
+Makefile
+ui_*
+qrc_*
+*.app
+*.dylib
+*.swp
+bin/
