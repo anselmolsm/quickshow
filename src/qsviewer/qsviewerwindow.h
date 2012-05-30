@@ -40,6 +40,8 @@ private slots:
 
     void on_action_Fullscreen_triggered();
 
+    void on_action_Open_triggered();
+
 private:
     Ui::QSViewerWindow *ui;
     QDeclarativeView *m_view;

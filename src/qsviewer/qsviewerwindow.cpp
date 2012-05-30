@@ -19,7 +19,9 @@
 
 #include "qsviewerwindow.h"
 #include "ui_qsviewerwindow.h"
+
 #include <QDeclarativeView>
+#include <QFileDialog>
 
 QSViewerWindow::QSViewerWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -31,6 +33,9 @@ QSViewerWindow::QSViewerWindow(QWidget *parent) :
     m_view->setResizeMode(QDeclarativeView::SizeRootObjectToView);
     m_view->setSource(QUrl("qrc:/viewer.qml"));
     setCentralWidget(m_view);
+
+    // Remove the status bar
+    setStatusBar(0);
 }
 
 QSViewerWindow::~QSViewerWindow()
@@ -47,4 +52,12 @@ void QSViewerWindow::on_action_Fullscreen_triggered()
 {
     menuBar()->hide();
     showFullScreen();
+}
+
+void QSViewerWindow::on_action_Open_triggered()
+{
+    const QString fileName = QFileDialog::getOpenFileName(this, tr("Open Presentation"),
+                                                          QDir::homePath(),
+                                                          tr("QML files (*.qml)"));
+    m_view->setSource(fileName);
 }
