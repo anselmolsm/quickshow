@@ -24,7 +24,11 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    QSViewerWindow window;
+    QString sourceFile;
+    if (argc > 0)
+        sourceFile = argv[1];
+
+    QSViewerWindow window(sourceFile);
     window.show();
 
     return app.exec();

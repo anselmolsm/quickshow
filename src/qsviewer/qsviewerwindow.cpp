@@ -21,9 +21,13 @@
 #include "ui_qsviewerwindow.h"
 
 #include <QDeclarativeView>
+#include <QDeclarativeEngine>
 #include <QFileDialog>
+#include <QKeyEvent>
 
-QSViewerWindow::QSViewerWindow(QWidget *parent) :
+#include <QDebug>
+
+QSViewerWindow::QSViewerWindow(const QString &sourceFile, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::QSViewerWindow)
 {
@@ -31,16 +35,53 @@ QSViewerWindow::QSViewerWindow(QWidget *parent) :
 
     m_view = new QDeclarativeView(this);
     m_view->setResizeMode(QDeclarativeView::SizeRootObjectToView);
-    m_view->setSource(QUrl("qrc:/viewer.qml"));
+    m_view->engine()->addImportPath("qrc:/");
+    m_view->engine()->addPluginPath("qrc:/");
+
+    if (sourceFile.isEmpty())
+        m_view->setSource(QUrl("viewer.qml"));
+    else
+        m_view->setSource(QUrl(sourceFile));
+
     setCentralWidget(m_view);
 
     // Remove the status bar
     setStatusBar(0);
+//    installEventFilter(this);
 }
 
 QSViewerWindow::~QSViewerWindow()
 {
     delete ui;
+}
+
+
+bool QSViewerWindow::eventFilter(QObject *object, QEvent *event)
+{
+    qDebug() << "filter ";
+    if (object == m_view) {
+        if (event->type() == QEvent::KeyPress) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            qDebug() << "key: " << keyEvent->key();
+            if (keyEvent->key() == Qt::Key_Escape) {
+                qDebug() << "esc";
+                m_view->showMaximized();
+            }
+        }
+    } else {
+        // pass the event on to the parent class
+        return QMainWindow::eventFilter(object, event);
+    }
+    qDebug() << "bla";
+}
+
+void QSViewerWindow::keyPressEvent(QKeyEvent *event)
+{
+    qDebug() << "aaa: " << event->key();
+    if (event->key() == Qt::Key_Escape) {
+        menuBar()->show();
+        showMaximized();
+    }
 }
 
 void QSViewerWindow::on_action_Quit_triggered()

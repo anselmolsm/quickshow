@@ -32,7 +32,7 @@ class QSViewerWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit QSViewerWindow(QWidget *parent = 0);
+    explicit QSViewerWindow(const QString &sourceFile = QString(), QWidget *parent = 0);
     ~QSViewerWindow();
 
 private slots:
@@ -41,6 +41,10 @@ private slots:
     void on_action_Fullscreen_triggered();
 
     void on_action_Open_triggered();
+
+protected:
+    bool eventFilter(QObject * object, QEvent * event);
+    void keyPressEvent(QKeyEvent * event);
 
 private:
     Ui::QSViewerWindow *ui;
