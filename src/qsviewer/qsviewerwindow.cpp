@@ -24,6 +24,7 @@
 #include <QDeclarativeEngine>
 #include <QFileDialog>
 #include <QKeyEvent>
+#include <QSettings>
 
 #include <QDebug>
 
@@ -32,6 +33,7 @@ QSViewerWindow::QSViewerWindow(const QString &sourceFile, QWidget *parent) :
     ui(new Ui::QSViewerWindow)
 {
     ui->setupUi(this);
+    recentFilesMenu();
 
     m_view = new QDeclarativeView(this);
     m_view->setResizeMode(QDeclarativeView::SizeRootObjectToView);
@@ -40,7 +42,7 @@ QSViewerWindow::QSViewerWindow(const QString &sourceFile, QWidget *parent) :
     if (sourceFile.isEmpty())
         m_view->setSource(QUrl("qrc:/viewer.qml"));
     else
-        m_view->setSource(QUrl(sourceFile));
+        openFile(sourceFile);
 
     setCentralWidget(m_view);
 
@@ -85,5 +87,43 @@ void QSViewerWindow::on_action_Open_triggered()
     if (fileName.isEmpty())
         return;
 
-    m_view->setSource(fileName);
+    openFile(fileName);
 }
+
+void QSViewerWindow::recentFilesMenu()
+{
+    QSettings settings;
+    QStringList recentFiles = settings.value("recentFileList").toStringList();
+    QMenu *recentFilesMenu = new QMenu(ui->menu_File);
+    ui->action_Recent_Files->setMenu(recentFilesMenu);
+    foreach (QString recentFile, recentFiles) {
+        QAction *ac = new QAction(recentFile.split("/").last(), this);
+        ac->setData(recentFile);
+        recentFilesMenu->addAction(ac);
+        connect(ac, SIGNAL(triggered()), this, SLOT(openRecentFile()));
+    }
+}
+
+void QSViewerWindow::openRecentFile()
+{
+    QAction *recentFileChosen = qobject_cast<QAction *>(sender());
+    if (recentFileChosen)
+        loadFile(recentFileChosen->data().toString());
+}
+
+void QSViewerWindow::openFile(const QString &fileName)
+{
+    QSettings settings;
+    QStringList files = settings.value("recentFileList").toStringList();
+    files.removeAll(fileName);
+    files.prepend(fileName);
+    settings.setValue("recentFileList", files);
+
+    loadFile(fileName);
+}
+
+void QSViewerWindow::loadFile(const QString &fileName)
+{
+    m_view->setSource(QUrl(fileName));
+}
+

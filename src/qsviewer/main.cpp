@@ -22,6 +22,9 @@
 
 int main(int argc, char *argv[])
 {
+    QApplication::setOrganizationDomain("openbossa.org");
+    QApplication::setOrganizationName("openbossa");
+    QApplication::setApplicationName("Quickshow");
     QApplication app(argc, argv);
 
     QString sourceFile;

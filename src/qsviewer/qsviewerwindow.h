@@ -42,8 +42,12 @@ private slots:
 
     void on_action_Open_triggered();
     void quitFullScreen();
-
+    void openRecentFile();
 private:
+    void openFile(const QString &fileName);
+    void loadFile(const QString &fileName);
+    void recentFilesMenu();
+
     Ui::QSViewerWindow *ui;
     QDeclarativeView *m_view;
 };
