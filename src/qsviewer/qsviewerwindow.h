@@ -41,10 +41,7 @@ private slots:
     void on_action_Fullscreen_triggered();
 
     void on_action_Open_triggered();
-
-protected:
-    bool eventFilter(QObject * object, QEvent * event);
-    void keyPressEvent(QKeyEvent * event);
+    void quitFullScreen();
 
 private:
     Ui::QSViewerWindow *ui;

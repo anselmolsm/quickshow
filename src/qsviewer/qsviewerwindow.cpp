@@ -36,10 +36,9 @@ QSViewerWindow::QSViewerWindow(const QString &sourceFile, QWidget *parent) :
     m_view = new QDeclarativeView(this);
     m_view->setResizeMode(QDeclarativeView::SizeRootObjectToView);
     m_view->engine()->addImportPath("qrc:/");
-    m_view->engine()->addPluginPath("qrc:/");
 
     if (sourceFile.isEmpty())
-        m_view->setSource(QUrl("viewer.qml"));
+        m_view->setSource(QUrl("qrc:/viewer.qml"));
     else
         m_view->setSource(QUrl(sourceFile));
 
@@ -47,7 +46,9 @@ QSViewerWindow::QSViewerWindow(const QString &sourceFile, QWidget *parent) :
 
     // Remove the status bar
     setStatusBar(0);
-//    installEventFilter(this);
+
+    // ESC quits the full screen mode
+    connect(m_view->engine(), SIGNAL(quit()), this, SLOT(quitFullScreen()));
 }
 
 QSViewerWindow::~QSViewerWindow()
@@ -55,38 +56,18 @@ QSViewerWindow::~QSViewerWindow()
     delete ui;
 }
 
-
-bool QSViewerWindow::eventFilter(QObject *object, QEvent *event)
-{
-    qDebug() << "filter ";
-    if (object == m_view) {
-        if (event->type() == QEvent::KeyPress) {
-            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-            qDebug() << "key: " << keyEvent->key();
-            if (keyEvent->key() == Qt::Key_Escape) {
-                qDebug() << "esc";
-                m_view->showMaximized();
-            }
-        }
-    } else {
-        // pass the event on to the parent class
-        return QMainWindow::eventFilter(object, event);
-    }
-    qDebug() << "bla";
-}
-
-void QSViewerWindow::keyPressEvent(QKeyEvent *event)
-{
-    qDebug() << "aaa: " << event->key();
-    if (event->key() == Qt::Key_Escape) {
-        menuBar()->show();
-        showMaximized();
-    }
-}
-
 void QSViewerWindow::on_action_Quit_triggered()
 {
     qApp->quit();
+}
+
+void QSViewerWindow::quitFullScreen()
+{
+    if (!isFullScreen())
+        return;
+
+    menuBar()->show();
+    showMaximized();
 }
 
 void QSViewerWindow::on_action_Fullscreen_triggered()
@@ -97,8 +78,12 @@ void QSViewerWindow::on_action_Fullscreen_triggered()
 
 void QSViewerWindow::on_action_Open_triggered()
 {
-    const QString fileName = QFileDialog::getOpenFileName(this, tr("Open Presentation"),
+    const QString fileName = QFileDialog::getOpenFileName(this,
+                                                          tr("Open Presentation"),
                                                           QDir::homePath(),
                                                           tr("QML files (*.qml)"));
+    if (fileName.isEmpty())
+        return;
+
     m_view->setSource(fileName);
 }

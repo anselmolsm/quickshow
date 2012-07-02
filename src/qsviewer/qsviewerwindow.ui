@@ -20,7 +20,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>28</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -33,27 +33,51 @@
    </widget>
    <widget class="QMenu" name="menuPresentation">
     <property name="title">
-     <string>Presentation</string>
+     <string>&amp;Presentation</string>
     </property>
     <addaction name="action_Fullscreen"/>
    </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>&amp;Tools</string>
+    </property>
+   </widget>
    <addaction name="menu_File"/>
    <addaction name="menuPresentation"/>
+   <addaction name="menuTools"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="action_Open">
    <property name="text">
     <string>&amp;Open</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::ApplicationShortcut</enum>
+   </property>
   </action>
   <action name="action_Quit">
    <property name="text">
     <string>&amp;Quit</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::ApplicationShortcut</enum>
+   </property>
   </action>
   <action name="action_Fullscreen">
    <property name="text">
-    <string>Fullscreen</string>
+    <string>&amp;Fullscreen</string>
+   </property>
+   <property name="shortcut">
+    <string>F11</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::ApplicationShortcut</enum>
    </property>
   </action>
  </widget>
