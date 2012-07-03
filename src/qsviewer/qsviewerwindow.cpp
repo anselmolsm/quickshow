@@ -25,6 +25,7 @@
 #include <QFileDialog>
 #include <QKeyEvent>
 #include <QSettings>
+#include <QProcess>
 
 #include <QDebug>
 
@@ -127,3 +128,11 @@ void QSViewerWindow::loadFile(const QString &fileName)
     m_view->setSource(QUrl(fileName));
 }
 
+
+void QSViewerWindow::on_actionConvert_to_PDF_triggered()
+{
+    QProcess qs2pdf;
+    QStringList arguments;
+    arguments << m_view->source().toString();
+    qs2pdf.startDetached(QCoreApplication::applicationDirPath()+"/qs2pdf", arguments);
+}

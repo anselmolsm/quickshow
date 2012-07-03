@@ -42,6 +42,7 @@
     <property name="title">
      <string>&amp;Tools</string>
     </property>
+    <addaction name="actionConvert_to_PDF"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menuPresentation"/>
@@ -84,6 +85,11 @@
   <action name="action_Recent_Files">
    <property name="text">
     <string>&amp;Recent Files</string>
+   </property>
+  </action>
+  <action name="actionConvert_to_PDF">
+   <property name="text">
+    <string>&amp;Convert to PDF</string>
    </property>
   </action>
  </widget>

@@ -43,6 +43,8 @@ private slots:
     void on_action_Open_triggered();
     void quitFullScreen();
     void openRecentFile();
+    void on_actionConvert_to_PDF_triggered();
+
 private:
     void openFile(const QString &fileName);
     void loadFile(const QString &fileName);
