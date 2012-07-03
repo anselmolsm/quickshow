@@ -34,6 +34,7 @@ public:
     Quickshow2pdf(QWidget *parent = 0);
     ~Quickshow2pdf();
 
+    QRect pageRect() const;
 protected:
     void initQPrinter();
 
@@ -49,7 +50,7 @@ private:
 
     QPrinter m_printer;
     QPainter m_painter;
-    QRect m_pageSize;
+    QRect m_pageRect;
 };
 
-#endif // QUICKSHOWVIEW_H
+#endif // QUICKSHOW2PDF_H

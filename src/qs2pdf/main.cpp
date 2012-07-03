@@ -18,14 +18,24 @@
 
 
 #include <QApplication>
-
+#include <QMainWindow>
 #include "quickshow2pdf.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
+    QMainWindow w;
     Quickshow2pdf qs2pdf;
+    qs2pdf.setResizeMode(QDeclarativeView::SizeRootObjectToView);
+    QString sourceFile;
+    if (argc > 0)
+        sourceFile = argv[1];
+
+    w.setCentralWidget(&qs2pdf);
+    w.setGeometry(qs2pdf.pageRect());
+    qs2pdf.setSource(QUrl(sourceFile));
 
     return app.exec();
 }
+

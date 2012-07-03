@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>quickshow/CommentedImage.qml</file>
+        <file>quickshow/CodeSection.qml</file>
+        <file>quickshow/Slide.qml</file>
+        <file>quickshow/ImageSlide.qml</file>
+        <file>quickshow/RegularSlide.qml</file>
+        <file>quickshow/qmldir</file>
+        <file>quickshow/Presentation.qml</file>
+        <file>quickshow/DividerSlide.qml</file>
+    </qresource>
+</RCC>

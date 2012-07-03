@@ -43,8 +43,7 @@ void Quickshow2pdf::initQPrinter()
     m_printer.setOutputFormat(QPrinter::PdfFormat);
     m_printer.setFullPage(true);
     m_printer.setOrientation(QPrinter::Landscape);
-    m_pageSize = m_printer.pageRect();
-
+    m_pageRect = m_printer.pageRect();
     //### output file name
     m_printer.setOutputFileName("/tmp/bla.pdf");
 
@@ -63,6 +62,7 @@ void Quickshow2pdf::timerEvent(QTimerEvent *event)
 
     QKeyEvent *e = new QKeyEvent(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier);
     m_painter.drawPixmap(this->rect(), QPixmap::grabWidget(this, this->rect()));
+    m_page++;
 
     if (m_page > m_nSlides) {
         m_painter.end();
@@ -79,14 +79,14 @@ void Quickshow2pdf::sourceLoaded(QDeclarativeView::Status status)
 {
     if (status != QDeclarativeView::Ready)
         return;
-
     QObjectList objectList = rootObject()->children();
 
     //###
     foreach (QObject *o, objectList) {
+        qDebug() << o->metaObject()->className();
         //### Change to check if it inherits Slide_QMLTYPE_5
-        if (QString(o->metaObject()->className()) == QString("RegularSlide_QMLTYPE_7") ||
-                QString(o->metaObject()->className()) == QString("ImageSlide_QMLTYPE_4")) {
+        if (QString(o->metaObject()->className()).contains("RegularSlide_QMLTYPE_") ||
+            QString(o->metaObject()->className()).contains("ImageSlide_QMLTYPE_")) {
             m_nSlides++;
         }
     }
@@ -94,6 +94,11 @@ void Quickshow2pdf::sourceLoaded(QDeclarativeView::Status status)
     if (!m_nSlides)
         return;
 
-    setGeometry(m_pageSize);
+    setGeometry(m_pageRect);
     m_timerId = startTimer(1000);
+}
+
+QRect Quickshow2pdf::pageRect() const
+{
+    return m_pageRect;
 }
